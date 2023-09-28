@@ -6,6 +6,8 @@ import Notes from "./Notes";
 
 export const IsFormActiveContext = createContext();
 
+const now = new Date()
+
 function App() {
   const months = [
     "January",
@@ -21,7 +23,6 @@ function App() {
     "November",
     "December",
   ];
-  const [currentDate, setcurrentDate] = useState(new Date());
   const [noteTitle, setnoteTitle] = useState("");
   const [noteDescription, setnoteDescription] = useState("");
   const [isFormActive, setIsFormActive] = useState(false);
@@ -41,14 +42,6 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setcurrentDate(new Date());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const addNotes = () => {
     setNotes((prevNotes) => [
       {
@@ -57,9 +50,9 @@ function App() {
           noteDescription.length === 0
             ? "You didn't input any description"
             : noteDescription,
-        date: `${currentDate.getDate()} ${
-          months[currentDate.getMonth()]
-        },  ${currentDate.getFullYear()}`,
+        date: `${now.getDate()} ${
+          months[now.getMonth()]
+        },  ${now.getFullYear()}`,
         id: crypto.randomUUID(),
       },
       ...prevNotes,
